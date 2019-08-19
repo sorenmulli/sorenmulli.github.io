@@ -1,2 +1,7 @@
-@import "~bootstrap/dist/css/bootstrap.css";
-@import "~font-awesome/css/font-awesome.css";
+@import "../node_modules/dkfds/dist/css/dkfds-virkdk.css";
+
+.content {
+	max-width: 960px;
+	margin: auto;
+	padding-top: 3%;
+}
