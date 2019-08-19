@@ -1,7 +1,21 @@
 import requests
 import json
 from bs4 import BeautifulSoup
+'''
+	Requires manually downloaded HTML-page called dtucourses.html located in scrape downloaded from http://kurser.dtu.dk/search?CourseCode=&SearchKeyword=&Department=1&Department=10&Department=11&Department=12&Department=13&Department=22&Department=23&Department=24&Department=25&Department=26&Department=27&Department=28&Department=29&Department=30&Department=31&Department=33&Department=34&Department=36&Department=38&Department=41&Department=42&Department=46&Department=47&Department=59&Department=IHK&Department=83&CourseType=&TeachingLanguage=
+	Requires the script to be run from the repo parent folder
+'''
 
+
+def data_versioning(course_n):
+	page = requests.get('https://kurser.dtu.dk/course/%s/info' %course_n)
+	soup = BeautifulSoup(page.text, 'html.parser')
+	print(soup.prettify)
+	box = soup.find(class_ = 'col-md-6')
+	
+	box_content = box.div.contents.find_all("div", _class = "bar")
+	
+	print(box_content)
 
 def scrape_grades(course_n):
 	"""
@@ -51,7 +65,10 @@ def scrape_evals(course_n):
 	"""
 	TODO:
 		-- Request error handling
+		-- Control information version
+
 	"""
+	raise NotImplementedError
 	course_information = dict()
 	question_names = ["learning_answers", "participation_answers", "material_answers", "clear_answers", "connection_answers", "worklevel_answers", "prerequisite_answers", "good_answers"]
 
@@ -80,26 +97,79 @@ def scrape_evals(course_n):
 
 	return course_information
 
-def get_course_numbers():
+def get_course_information():
 	'''
-	Requires manually downloaded HTML-page called dtucourses.html from http://kurser.dtu.dk/search?CourseCode=&SearchKeyword=&Department=1&Department=10&Department=11&Department=12&Department=13&Department=22&Department=23&Department=24&Department=25&Department=26&Department=27&Department=28&Department=29&Department=30&Department=31&Department=33&Department=34&Department=36&Department=38&Department=41&Department=42&Department=46&Department=47&Department=59&Department=IHK&Department=83&CourseType=&TeachingLanguage=
 	'''
-	courses = list()
+	courses = dict()
 
-	soup =  BeautifulSoup(open("dtucourses.html"), "html.parser")
+	soup =  BeautifulSoup(open("src/backend/scrape/dtucourses.html"), "html.parser")
 	
 	result = soup.find(class_ = "panel panel-default")
-	courses = result.table.tbody.find_all("tr")[1:]
-	for course in courses[0:20]:
-		print(course.contents[1].a)
+	course_objects = result.table.tbody.find_all("tr")
+
+	for course in course_objects:
+#		try:
+			info = dict()
+			
+			#Using leftmost course information 
+			course.contents[3].small
+			info_string = course.contents[3].small.contents[0]
+			info_list = info_string.split("|")
+			
+			#Course language and ECTS
+			info["language"] = info_list[0].strip()
+			info["ECTS"]  = info_list[1].split()[0]
+			
+			#Course time
+			time_data = course.contents[3].small.contents[3:]
+			info["time"] = " ".join([str(td.string).strip() if td.string is not None else "" for td in time_data]).strip()
+
+			#Course level
+			info["level"] = course.contents[5].string.strip()
+
+			#Course number
+			course_link = course.a["href"]
+			course_n = course_link.split("/")[-1]
+
+			courses[course_n] = {"info": info}
+
+
+#		except:
+#			print("Course information error: ", course)
 	
+	return courses 
+
+
 
 def scrape_all_courses():
+	raw_database = get_course_information()
 
-	pass
+	for course in raw_database:
+		error = 0
+		try:
+			grade_info = scrape_grades(course)
+			raw_database[course]["grade_info"] = grade_info
+		except:
+			error = 1
+			print("\tGrade error", course)
+			
+		try:
+			eval_info = scrape_evals(course)
+			raw_database[course]["eval_info"] = eval_info
 
-	#json.dumps()
+		except:
+			error = 1
+			print("\tEval error", course)
+
+		if not error:
+			print("Succesfully scraped", course)
+
+	print("N scraped courses:", len(raw_database))
+
+	with open('src/backend/data/raw_data.json', 'w+') as fp:
+		json.dump(raw_database, fp)
+
 
 if __name__ == "__main__":
 
-	get_course_numbers()	
+	data_versioning("01005")	
