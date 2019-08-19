@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { CourseInfoComponent } from './course-info/course-info.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { OverviewComponent } from './overview/overview.component';
+import { DocsComponent } from './docs/docs.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,10 +15,12 @@ import { OverviewComponent } from './overview/overview.component';
     CourseInfoComponent,
     StatisticsComponent,
     OverviewComponent,
+    DocsComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

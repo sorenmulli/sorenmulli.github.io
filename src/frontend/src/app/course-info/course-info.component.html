@@ -1,1 +1,29 @@
-<p>course-info works!</p>
+<!-- Søgefunktionalitet -->
+<form (ngSubmit)="navigateToCourse(courseSearchForm.controls.searchBar.value)"
+	  [formGroup]="courseSearchForm"
+	  class="form form-group">
+	<label for="course-search">
+		Søg efter kursus, enten med kursusnummer eller -navn:
+	</label>
+	<table>
+		<td>
+			<input id="course-search"
+				   formControlName="searchBar"
+				   placeholder="Kursusnummer eller -navn"
+				   class="form-input" >
+		</td>
+		<td>
+			<button class="button button-primary"
+					type="submit"
+					[disabled]="courseSearchForm.invalid"
+					style="float:left">Søg</button>
+		</td>
+	</table>
+</form>
+
+<!-- Viser kursusinfo -->
+<div *ngIf="courseFound">
+
+</div>
+
+

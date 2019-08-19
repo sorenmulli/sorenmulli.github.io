@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { FormControl, Validators, FormGroup } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+
+import { CourseInfo } from "./course-info";
 
 @Component({
   selector: 'app-course-info',
@@ -8,12 +11,29 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class CourseInfoComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  courseSearchForm: FormGroup;
+  courseFound = false;
+  courseInfo: CourseInfo;
+
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    // TODO: Kom med søgeforslag, hvis kurset ikke findes
+    this.courseSearchForm = new FormGroup({
+      searchBar: new FormControl(null, Validators.required)
+    });
     this.route.paramMap.subscribe(params => {
-      console.log(params.get("id"));
+      const id = params.get("id");
+      this.courseSearchForm.get("searchBar").setValue(id);
+      this.getCourse(id);
     })
+  }
+
+  navigateToCourse(courseNo: string) {
+    this.router.navigateByUrl(`/course/${courseNo}`);
+  }
+
+  getCourse(courseNo: string) {
   }
 
 }
