@@ -8,7 +8,7 @@ rm -rf dist
 
 # Pusher til git
 git add -A
-git commit -m"Nyt build"
+git commit -m"$1"
 git pull
 git push
 
