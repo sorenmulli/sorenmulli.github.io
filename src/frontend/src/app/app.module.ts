@@ -7,7 +7,8 @@ import { CourseInfoComponent } from './course-info/course-info.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { OverviewComponent } from './overview/overview.component';
 import { DocsComponent } from './docs/docs.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PlotlyComponent } from './plotly/plotly.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     StatisticsComponent,
     OverviewComponent,
     DocsComponent,
+    PlotlyComponent,
   ],
   imports: [
     BrowserModule,

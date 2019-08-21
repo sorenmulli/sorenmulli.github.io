@@ -1,5 +1,5 @@
 <!-- Søgefunktionalitet -->
-<form (ngSubmit)="navigateToCourse(courseSearchForm.controls.searchBar.value)"
+<form (ngSubmit)="getTopCourse()"
 	  [formGroup]="courseSearchForm"
 	  class="form form-group">
 	<label for="course-search">
@@ -22,8 +22,9 @@
 </form>
 
 <!-- Viser kursusinfo -->
-<div *ngIf="courseFound">
+<!-- <div *ngIf="courseFound">
 
-</div>
+</div> -->
 
-
+<div id="Graph" #Graph></div>
+<plotly [data]="data" [layout]="layout"></plotly>
