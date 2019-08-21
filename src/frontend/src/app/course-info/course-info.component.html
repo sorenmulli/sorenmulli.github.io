@@ -2,15 +2,15 @@
 <form (ngSubmit)="getTopCourse()"
 	  [formGroup]="courseSearchForm"
 	  class="form form-group">
-	<label for="course-search">
+	<label for="course-search" class="form-label">
 		Søg efter kursus, enten med kursusnummer eller -navn:
-	</label>
+	</label><br>
 	<table>
 		<td>
 			<input id="course-search"
 				   formControlName="searchBar"
 				   placeholder="Kursusnummer eller -navn"
-				   class="form-input" >
+				   class="form-input">
 		</td>
 		<td>
 			<button class="button button-primary"
@@ -22,9 +22,12 @@
 </form>
 
 <!-- Viser kursusinfo -->
-<!-- <div *ngIf="courseFound">
+<div *ngIf="!isSearching">
 
-</div> -->
+</div>
 
-<div id="Graph" #Graph></div>
+<!-- Viser søgeresultater -->
+<div *ngIf="isSearching && courseSearchForm.valid">
+	asd
+</div>
 <plotly [data]="data" [layout]="layout"></plotly>

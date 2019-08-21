@@ -5,8 +5,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { CourseInfo } from "./course-info";
 import { IData, ILayout } from "../plotly/plotly";
 
-declare var Plotly: any;
-
 @Component({
   selector: 'app-course-info',
   templateUrl: './course-info.component.html',
@@ -15,7 +13,7 @@ declare var Plotly: any;
 export class CourseInfoComponent implements OnInit {
 
   courseSearchForm: FormGroup;
-  courseFound = false;
+  isSearching = false;  // TODO: Bind op på change events
   courseInfo: CourseInfo;
 
   data = [{
@@ -23,37 +21,10 @@ export class CourseInfoComponent implements OnInit {
     y: [1,2,4]
   }]
   layout = {
-    // autoexpand: "true",
-    // autosize: "true",
-    // width: window.innerWidth - 200, //we give initial width, so if the
-    //                                 //graph is rendered while hidden, it   
-    //                                 //takes the right shape
-    // margin: {
-    //   autoexpand: "true",
-    //   margin: 0
-    // },
-    // offset: 0,
-    // type: "scattergl",
-    // title: name, //Title of the graph
-    // hovermode: "closest",
-    // xaxis: {
-    //   linecolor: "black",
-    //   linewidth: 2,
-    //   mirror: true,
-    //   title: "Time (s)",
-    //   automargin: true
-    // },
-    // yaxis: {
-    //   linecolor: "black",
-    //   linewidth: 2,
-    //   mirror: true,
-    //   automargin: true,
-    //   title: 'Any other Unit'
-    // }
+    xaxis: {
+      title: "En bedre titel",
+    }
   }
-
-  @ViewChild("Graph", {static: true})
-  private Graph: ElementRef;
 
   constructor() { }
 
