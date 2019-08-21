@@ -6,8 +6,10 @@ cd "$(dirname "$0")"
 
 # Bygger og rykker til øverst i git-repoet
 # ng build --prod
-rm !(.git|.gitignore|src|docs)
 yes | cp -rf dist/frontend/* ../..
+
+cd ../..
+rm !(.git|.gitignore|src|docs)
 rm -rf dist
 
 # Pusher til git
