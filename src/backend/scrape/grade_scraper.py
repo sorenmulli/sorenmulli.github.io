@@ -65,6 +65,8 @@ def scrape_grades_url(url):
 	for grade_td in grade_table.find_all("td", style = "text-align: center"):
 		grade_Ns.append(int(grade_td.string))									#ERROR HANDLING!?!?!?!??!?!
 
+	result["grade_dist"] = grade_Ns
+
 	if not len(grade_Ns) in [8, 9, 10, 11]: #Assert that standard 7-step system has been used
 		return False
 
