@@ -30,7 +30,7 @@ git add -A
 git commit -m"{$1:-'Nyt build'}"
 git push origin gh-pages -f
 git checkout master
-git branch -d gh-pages
+git branch -D gh-pages
 
 
 
