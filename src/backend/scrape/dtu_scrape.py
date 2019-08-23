@@ -1,3 +1,7 @@
+from os import chdir, getcwd
+from os.path import dirname, realpath
+chdir(realpath(dirname(__file__)) + "/../../..")
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -7,9 +11,10 @@ from eval_scraper import scrape_all_evals
 import json
 
 '''
-	Requires manually downloaded HTML-page called dtucourses.html located in scrape downloaded from http://kurser.dtu.dk/search?CourseCode=&SearchKeyword=&Department=1&Department=10&Department=11&Department=12&Department=13&Department=22&Department=23&Department=24&Department=25&Department=26&Department=27&Department=28&Department=29&Department=30&Department=31&Department=33&Department=34&Department=36&Department=38&Department=41&Department=42&Department=46&Department=47&Department=59&Department=IHK&Department=83&CourseType=&TeachingLanguage=
-	Requires the script to be run from the repo parent folder
+	Requires manually downloaded HTML-page called dtucourses.html located in scrape downloaded from
+	http://kurser.dtu.dk/search?CourseCode=&SearchKeyword=&Department=1&Department=10&Department=11&Department=12&Department=13&Department=22&Department=23&Department=24&Department=25&Department=26&Department=27&Department=28&Department=29&Department=30&Department=31&Department=33&Department=34&Department=36&Department=38&Department=41&Department=42&Department=46&Department=47&Department=59&Department=IHK&Department=83&CourseType=&TeachingLanguage=
 '''
+
 
 def get_course_information():
 	'''
@@ -85,7 +90,7 @@ def scrape_all():
 	print("N scraped courses:", len(raw_database))
 
 	with open('src/backend/data/complete_raw_data.json', 'w+') as fp:
-		json.dump(raw_database, fp)
+		json.dump(raw_database, fp, indent=4, sort_keys=True)
 
 
 if __name__ == "__main__":

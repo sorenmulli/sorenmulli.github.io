@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { CourseInfo } from "./course-info";
+import { CourseInfo } from "../course/course";
 import { IData, ILayout } from "../plotly/plotly";
 
 @Component({

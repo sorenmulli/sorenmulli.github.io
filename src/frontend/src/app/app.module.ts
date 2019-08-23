@@ -9,6 +9,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { DocsComponent } from './docs/docs.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlotlyComponent } from './plotly/plotly.component';
+import { CourseService } from './course/course.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { PlotlyComponent } from './plotly/plotly.component';
     AppRoutingModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [CourseService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
