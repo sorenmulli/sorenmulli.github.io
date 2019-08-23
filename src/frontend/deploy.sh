@@ -5,6 +5,7 @@ shopt -s extglob
 cd "$(dirname "$0")"
 git add -A
 git commit -m"${1:-Påbegynder deploy}"
+git push
 
 git branch gh-pages
 git checkout gh-pages
