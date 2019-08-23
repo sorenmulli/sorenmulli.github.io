@@ -3,41 +3,43 @@ shopt -s extglob
 
 # Sikrer, at wd er øverst i Angular-applikationen
 cd "$(dirname "$0")"
-git add -A
-git commit -m"${1:-Påbegynder deploy}"
-git push
-
-git branch gh-pages
-git checkout gh-pages
-
-# Rydder op i dir
-# rm -rf !(.git|.gitignore|src|docs)
 
 # Fjerner cache >:O
 rm -rf node_modules/.cache
 
-# # Til gh-pages branch
-# ng deploy
+# Pusher til master
+cd ../..
+rm -rf !(.git|.gitignore|src|docs)
 
-# Til master branch
-
-# Bygger og rykker til øverst i git-repoet
+cd src/frontend
 ng build --prod
 yes | cp -rf dist/frontend/* ../..
 rm -rf dist
 
-# # Pusher til git
 git add -A
-git commit -m"{$1:-'Nyt build'}"
-git push origin gh-pages -f
-git checkout master
-git branch -D gh-pages
+git commit -m"${1:-Nyt build}"
+git pull
+git push
 
 
+# Pusher til gh-pages
+# git add -A
+# git commit -m"${1:-Påbegynder deploy}"
+# git pull
+# git push
 
+# git branch gh-pages
+# git checkout gh-pages
 
+# ng build --prod
+# yes | cp -rf dist/frontend/* ../..
+# rm -rf dist
 
-
+# git add -A
+# git commit -m"${1:-Nyt build}"
+# git push origin gh-pages -f
+# git checkout master
+# git branch -D gh-pages
 
 
 

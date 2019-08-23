@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { CourseInfo } from "../course/course";
+import { Courses } from "../course/course";
 import { IData, ILayout } from "../plotly/plotly";
+import { CourseService } from '../course/course.service';
 
 @Component({
   selector: 'app-course-info',
@@ -14,7 +15,6 @@ export class CourseInfoComponent implements OnInit {
 
   courseSearchForm: FormGroup;
   isSearching = false;  // TODO: Bind op på change events
-  courseInfo: CourseInfo;
 
   data = [{
     x: [1,2,3],
@@ -26,7 +26,7 @@ export class CourseInfoComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private courseService: CourseService) { }
 
   ngOnInit() {
     // TODO: Kom med søgeforslag, hvis kurset ikke findes
