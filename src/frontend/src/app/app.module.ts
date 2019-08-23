@@ -1,8 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatFormFieldModule, MatInputModule } from "@angular/material";
+
 import { CourseInfoComponent } from './course-info/course-info.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -24,6 +26,9 @@ import { CourseService } from './course/course.service';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   providers: [CourseService],
   bootstrap: [AppComponent]
