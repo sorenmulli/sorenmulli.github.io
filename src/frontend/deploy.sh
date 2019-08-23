@@ -9,9 +9,9 @@ cd "$(dirname "$0")/../.."
 rm -rf !(.git|.gitignore|src|docs)
 
 cd src/frontend
-ng build --prod
+# ng build --prod
 yes | cp -rf dist/frontend/* ../..
-rm -rf dist
+# rm -rf dist
 
 # Pusher til git
 git add -A
