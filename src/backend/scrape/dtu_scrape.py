@@ -4,18 +4,20 @@ chdir(realpath(dirname(__file__)) + "/../../..")
 
 import requests
 from bs4 import BeautifulSoup
+import multiprocessing as mp
 
 from grade_scraper import scrape_all_grades
 from eval_scraper import scrape_all_evals
 
 import json
 import time 
-
+import sys
 '''
 	Requires manually downloaded HTML-page called dtucourses.html located in scrape downloaded from
 	http://kurser.dtu.dk/search?CourseCode=&SearchKeyword=&Department=1&Department=10&Department=11&Department=12&Department=13&Department=22&Department=23&Department=24&Department=25&Department=26&Department=27&Department=28&Department=29&Department=30&Department=31&Department=33&Department=34&Department=36&Department=38&Department=41&Department=42&Department=46&Department=47&Department=59&Department=IHK&Department=83&CourseType=&TeachingLanguage=
 '''
 
+sys.setrecursionlimit(25000)
 
 def get_course_information():
 	'''
@@ -68,9 +70,12 @@ def get_course_information():
 		)
 	return courses 
 
+def chunks(l, n):
+    """Yield successive n-sized chunks from l."""
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
 
-
-def scrape_all():
+def scrape_all(N_processes = 12):
 	'''
 	Scrapes all course information, grades, evaluations for each course. 
 	'''
@@ -78,13 +83,30 @@ def scrape_all():
 	cleantime = nowtime.split('T')[0]
 
 	data = {'time': cleantime}
-
+	
 
 	print("Reading course information ... ")
 	course_list = get_course_information()
+
+	print("Beginning scrape of %s courses ... " % len(course_list))
+	
+	#multiprocessing of course downloads
+	with mp.Pool(processes = N_processes) as p:
+		mushed_course_list = p.map(scrape_loop, chunks(course_list, len(course_list) // N_processes))
+	course_list = [*mushed_course_list]
+#	course_list = scrape_loop(course_list)
+
+	print("N found courses:", len(course_list))
+	data['courses'] = course_list
+
+	with open('src/backend/data/%scomplete_raw_data.json' %nowtime, 'w+') as fp:
+		json.dump(data, fp, indent=4)
+	# with open("src/frontend/src/assets/complete_raw_data.json", "w") as fp:
+	# 	json.dump(raw_database, fp, indent=4, sort_keys=True)
+
+def scrape_loop(course_list):
 	N = len(course_list)
 
-	print("Beginning scraping %s courses ... " %N)
 	for i, course in enumerate(course_list):
 		number = course["info"]["course_no"]
 
@@ -107,15 +129,8 @@ def scrape_all():
 
 		if not error:
 			print("Completely scraped %s (%s/%s)" %(number, i+1, N))
-
-	print("N found courses:", len(course_list))
-	data['courses'] = course_list
-
-	with open('src/backend/data/%scomplete_raw_data.json' %nowtime, 'w+') as fp:
-		json.dump(data, fp, indent=4, sort_keys=True)
-	# with open("src/frontend/src/assets/complete_raw_data.json", "w") as fp:
-	# 	json.dump(raw_database, fp, indent=4, sort_keys=True)
-
+	
+	return course_list
 
 if __name__ == "__main__":
-	scrape_all()
+	scrape_all(N_processes = 12)
