@@ -43,8 +43,11 @@ def scrape_grades_url(url):
 	
 	grade_info = soup.find(id = 'karsumForm')
 	
-	### Grab header information 
-	header_td_list = grade_info.find_all('td', style = 'padding-right: 2em')
+	### Grab header information
+	try:
+		header_td_list = grade_info.find_all('td', style = 'padding-right: 2em')
+	except:
+		raise Exception("Fejl på url " + url)
 	header_scraped_strings = dict()
 	for td in header_td_list:
 		for wanted_string in wanted_strings:

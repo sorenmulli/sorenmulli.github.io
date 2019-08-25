@@ -39,7 +39,11 @@ def get_course_information():
 		
 		#Course language and ECTS
 		info["language"] = info_list[0].strip()
-		info["ECTS"]  = info_list[1].split()[0]
+		ects_str = info_list[1].split()[0]
+		try:
+			info["ECTS"] = int(ects_str)
+		except ValueError:
+			info["ECTS"] = float(ects_str)
 		
 		#Course time
 		time_data = course.contents[3].small.contents[3:]
@@ -72,17 +76,17 @@ def scrape_all():
 		try:
 			grade_info = scrape_all_grades(course)
 			raw_database[course]["grades"] = grade_info
-		except:
+		except Exception as e:
 			error = 1
-			print("\tGrade error", course)
+			print("\tGrade error", course, e)
 			
 		try:
 			eval_info = scrape_all_evals(course)
 			raw_database[course]["evals"] = eval_info
 
-		except:
+		except Exception as e:
 			error = 1
-			print("\tEval error", course)
+			print("\tEval error", course, e)
 
 		if not error:
 			print("Completely scraped", course)
@@ -91,8 +95,8 @@ def scrape_all():
 
 	with open('src/backend/data/complete_raw_data.json', 'w+') as fp:
 		json.dump(raw_database, fp, indent=4, sort_keys=True)
-	with open("src/frontend/src/assets/complete_raw_data.json", "w") as fp:
-		json.dump(raw_database, fp, indent=4, sort_keys=True)
+	# with open("src/frontend/src/assets/complete_raw_data.json", "w") as fp:
+	# 	json.dump(raw_database, fp, indent=4, sort_keys=True)
 
 
 if __name__ == "__main__":
