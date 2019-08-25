@@ -91,6 +91,8 @@ def scrape_all():
 
 	with open('src/backend/data/complete_raw_data.json', 'w+') as fp:
 		json.dump(raw_database, fp, indent=4, sort_keys=True)
+	with open("src/frontend/src/assets/complete_raw_data.json", "w") as fp:
+		json.dump(raw_database, fp, indent=4, sort_keys=True)
 
 
 if __name__ == "__main__":
