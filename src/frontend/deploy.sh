@@ -13,11 +13,8 @@ rm -rf !(.git|.gitignore|src|docs)
 
 cd src/frontend
 ng build --prod
-ls
 yes | cp -rf dist/frontend/* ../..
 rm -rf dist
-cd ../..
-ls
 
 git add -A
 git commit -m"${1:-Nyt build}"
