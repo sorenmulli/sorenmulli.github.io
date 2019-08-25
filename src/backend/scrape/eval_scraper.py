@@ -22,8 +22,11 @@ def scrape_all_evals(course_n):
 	
 	#Get all evaluation results from courseSearch
 	result_list = soup.find('div', id = 'CourseList')
-	all_results = result_list.find_all('div', class_ = 'ResultsPublicRow')
-	
+	try:
+		all_results = result_list.find_all('div', class_ = 'ResultsPublicRow')
+	except:
+		raise Exception("No course eval results")
+
 	for result in all_results:
 		info = result.a
 
@@ -69,11 +72,11 @@ def scrape_eval_url(url):
 	try: 
 		result["N_responses"] = int(n_tr.td.string)
 	except KeyError:
-	
 		return False
+
 	if result["N_responses"] == 0:
 		return False
-		
+
 	### Grab responses
 	question_objects = soup.find_all(class_ = "ResultCourseModelWrapper grid_6 clearmarg")
 	if len(question_objects) != 9: # assert that only the nine questions are received
