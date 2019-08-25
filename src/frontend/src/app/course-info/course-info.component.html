@@ -45,11 +45,11 @@
 			<td><a href="javascript:void(0)" (click)="getCourse(courseNo)">
 				{{courseNo}}
 			</a></td>
-			<td>{{courseService[course].info.name}}</td>
-			<td><div style="text-align: right">{{(courseService[course].info.ECTS | number:"1.0-1").replace(".", ",")}}</div></td>
-			<td>{{courseService[course].info.language}}</td>
-			<td>{{courseService[course].info.time}}</td>
-			<td>{{courseService[course].info.level}}</td>
+			<td>{{courseService.courses[courseNo].info.name}}</td>
+			<td><div style="text-align: right">{{(courseService.courses[courseNo].info.ECTS | number:"1.0-1").replace(".", ",")}}</div></td>
+			<td>{{courseService.courses[courseNo].info.language}}</td>
+			<td>{{courseService.courses[courseNo].info.time}}</td>
+			<td>{{courseService.courses[courseNo].info.level}}</td>
 		</tr>
 	</table>
 </div>

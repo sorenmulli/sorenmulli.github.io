@@ -7,6 +7,7 @@ export interface ICourses {
 
 export interface ICourse {
 	info: {
+		course_no: string,
 		name: string,
 		language: string,
 		ECTS: number,
