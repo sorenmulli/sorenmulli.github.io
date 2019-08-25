@@ -1,6 +1,6 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 
-import { ICourses } from "./course";
+import { ICourse, ICourses } from "./course";
 import data from "../../assets/complete_raw_data.json";
 
 @Injectable({
@@ -8,29 +8,21 @@ import data from "../../assets/complete_raw_data.json";
 })
 export class CourseService implements OnDestroy {
 
-  courseData: ICourses;
+  updateTime: Date;
+  courses: ICourse[];
 
   constructor() { }
 
   ngOnDestroy() {
-    this.courseData = null;
+    this.courses = null;
   }
 
   loadData() {
-    this.courseData = {
-      updateTime: new Date(data.updateTime),
-      courses: data.courses,
-    }
+    this.updateTime = new Date(data.updateTime);
+    this.courses = data.courses;
   }
 
-  searchNo(queue: string) {
-    for (let no of Object.keys(this.courseData)) {
-      console.log(no);
-    }
-    return this.courseData;
-  }
+  search(queue: string, useCourseNo: boolean) {
 
-  searchName(queue: string) {
-    return this.courseData;
   }
 }

@@ -8,10 +8,9 @@ export interface ICourse {
 		course_no: string,
 		name: string,
 		language: string,
-		ECTS: string | number,
+		ECTS: number,
 		time: string,
-		level: string,
-		url: string,
+		level: string
 	},
 	grades?: {
 		[key: string]: {

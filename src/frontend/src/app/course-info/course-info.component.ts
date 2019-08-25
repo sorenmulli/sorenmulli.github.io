@@ -26,13 +26,12 @@ export class CourseInfoComponent implements OnInit {
       searchBar: new FormControl(null, Validators.required)
     });
     this.courseService.loadData();
-    this.searchResults = this.courseService.courseData.courses;
+    this.searchResults = this.courseService.courses;
     // this.searchResults = [this.courseService.courses["01003"], this.courseService.courses["01005"], this.courseService.courses["01015"]]
   }
 
   getCourse(courseNo: string) {
-    this.currentCourse = this.courseService.courseData.courses[0];
-    const studieplan = document.getElementById("studieplan");
+    this.currentCourse = this.courseService.courses[0];
     // studieplan.style
 
   }

@@ -1,21 +1,31 @@
 <!-- Søgefunktionalitet -->
-<form (ngSubmit)="getTopCourse()"
-	  [formGroup]="courseSearchForm">
-	<label for="course-search"><h5>Søg efter kurser:</h5></label>
-	<mat-form-field>
-		<input id="course-search"
-				matInput
-				formControlName="searchBar"
-				(input)="updateSearchResults($event.data)"
-				placeholder="Kursusnr. eller -navn">
-	</mat-form-field>
-</form>
+<div class="row">
+	<div class="col-xs-12 col-md-6">
+		<label for="course-search"><h5>Søg efter kurser:</h5></label>
+		<mat-form-field>
+			<form (ngSubmit)="getTopCourse()"
+				[formGroup]="courseSearchForm">
+				<input id="course-search"
+						matInput
+						formControlName="searchBar"
+						(input)="updateSearchResults($event.data)"
+						placeholder="Kursusnr. eller -navn">
+			</form>
+		</mat-form-field>
+	</div>
+	<div class="col-xs-12 col-md-6">
+		<div  style="text-align: right">
+			<h5>Senest opdateret d.</h5>
+			{{courseService.updateTime | date}}
+		</div>
+	</div>
+</div>
 
 <!-- Viser kursusinfo -->
 <div *ngIf="currentCourse">
 	<!-- Studieplanlæggeren -->
 	<a (click)="showStudieplan=!showStudieplan">
-		{{showStudieplan ? "Skjul" : "Vis"}} studieplan
+		{{showStudieplan ? "Luk" : "Åbn"}} din studieplan
 	</a>
 	<iframe *ngIf="showStudieplan" class="studieplan" src="https://studieplan.dtu.dk"></iframe>
 </div>
@@ -32,7 +42,9 @@
 			<th>Niveau</th>
 		</tr>
 		<tr *ngFor="let course of searchResults">
-			<td><a href="javascript:void(0)" (click)="getCourse(course.info.number)">123</a></td>
+			<td><a href="javascript:void(0)" (click)="getCourse(course.info.number)">
+				{{course.info.course_no}}
+			</a></td>
 			<td>{{course.info.name}}</td>
 			<td>{{course.info.ECTS}}</td>
 			<td>{{course.info.language}}</td>

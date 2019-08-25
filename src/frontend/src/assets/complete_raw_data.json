@@ -6,10 +6,9 @@
 				"course_no": "01005",
                 "name": "Matematik 1",
                 "language": "Dansk",
-                "ECTS": "20",
+                "ECTS": 20,
                 "time": "Efter\u00e5r  og  For\u00e5r",
-				"level": "Bachelor",
-				"url": "https://kurser.dtu.dk/course/01005"
+				"level": "Bachelor"
             },
             "grades": {
                 "2017summer": {
