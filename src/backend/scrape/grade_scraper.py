@@ -47,7 +47,8 @@ def scrape_grades_url(url):
 	try:
 		header_td_list = grade_info.find_all('td', style = 'padding-right: 2em')
 	except:
-		raise Exception("Fejl på url " + url)
+		return False
+		
 	header_scraped_strings = dict()
 	for td in header_td_list:
 		for wanted_string in wanted_strings:

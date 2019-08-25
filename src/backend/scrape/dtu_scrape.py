@@ -9,6 +9,7 @@ from grade_scraper import scrape_all_grades
 from eval_scraper import scrape_all_evals
 
 import json
+import time 
 
 '''
 	Requires manually downloaded HTML-page called dtucourses.html located in scrape downloaded from
@@ -19,7 +20,7 @@ import json
 def get_course_information():
 	'''
 	'''
-	courses = dict()
+	courses = list()
 
 	soup =  BeautifulSoup(open("src/backend/scrape/dtucourses.html"), "html.parser")
 	
@@ -32,11 +33,12 @@ def get_course_information():
 			continue
 		
 		info = dict()
+
 		#Using leftmost course information 
 		course.contents[3].small
 		info_string = course.contents[3].small.contents[0]
 		info_list = info_string.split("|")
-		
+
 		#Course language and ECTS
 		info["language"] = info_list[0].strip()
 		ects_str = info_list[1].split()[0]
@@ -52,12 +54,18 @@ def get_course_information():
 		#Course level
 		info["level"] = course.contents[5].string.strip()
 
+		#Course name
+		course_name = course.a.string.split('-')[1]
+		info["name"] = course_name.strip()
+
 		#Course number
 		course_link = course.a["href"]
 		course_n = course_link.split("/")[-1]
-
-		courses[course_n] = {"info": info}
-	
+		info["course_no"] = course_n
+		
+		courses.append(
+			{"info": info}
+		)
 	return courses 
 
 
@@ -66,35 +74,45 @@ def scrape_all():
 	'''
 	Scrapes all course information, grades, evaluations for each course. 
 	'''
+	nowtime = time.strftime('%Y-%m-%dT%H%M%S', time.localtime()) 
+	cleantime = nowtime.split('T')[0]
+
+	data = {'time': cleantime}
+
 
 	print("Reading course information ... ")
-	raw_database = get_course_information()
+	course_list = get_course_information()
+	N = len(course_list)
 
-	print("Beginning scraping process ... ")
-	for course in raw_database:
+	print("Beginning scraping %s courses ... " %N)
+	for i, course in enumerate(course_list):
+		number = course["info"]["course_no"]
+
 		error = 0
+		
 		try:
-			grade_info = scrape_all_grades(course)
-			raw_database[course]["grades"] = grade_info
+			grade_info = scrape_all_grades(number)
+			course["grades"] = grade_info
 		except Exception as e:
 			error = 1
-			print("\tGrade error", course, e)
+			print("\tGrade error", number, e)
 			
 		try:
-			eval_info = scrape_all_evals(course)
-			raw_database[course]["evals"] = eval_info
+			eval_info = scrape_all_evals(number)
+			course["evals"] = eval_info
 
 		except Exception as e:
 			error = 1
-			print("\tEval error", course, e)
+			print("\tEval error", number, e)
 
 		if not error:
-			print("Completely scraped", course)
+			print("Completely scraped %s (%s/%s)" %(number, i+1, N))
 
-	print("N scraped courses:", len(raw_database))
+	print("N found courses:", len(course_list))
+	data['courses'] = course_list
 
-	with open('src/backend/data/complete_raw_data.json', 'w+') as fp:
-		json.dump(raw_database, fp, indent=4, sort_keys=True)
+	with open('src/backend/data/%scomplete_raw_data.json' %nowtime, 'w+') as fp:
+		json.dump(data, fp, indent=4, sort_keys=True)
 	# with open("src/frontend/src/assets/complete_raw_data.json", "w") as fp:
 	# 	json.dump(raw_database, fp, indent=4, sort_keys=True)
 
