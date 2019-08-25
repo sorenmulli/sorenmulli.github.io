@@ -71,7 +71,9 @@ def scrape_eval_url(url):
 	except KeyError:
 	
 		return False
-
+	if result["N_responses"] == 0:
+		return False
+		
 	### Grab responses
 	question_objects = soup.find_all(class_ = "ResultCourseModelWrapper grid_6 clearmarg")
 	if len(question_objects) != 9: # assert that only the nine questions are received
