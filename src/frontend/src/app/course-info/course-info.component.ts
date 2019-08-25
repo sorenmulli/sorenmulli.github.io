@@ -16,40 +16,34 @@ export class CourseInfoComponent implements OnInit {
   courseSearchForm: FormGroup;
   currentCourse: ICourse | null = null;
   searchResults: ICourse[];
-  showStudieplan: boolean = true;
+  showStudieplan: boolean = false;
 
   constructor(private courseService: CourseService) { }
 
   ngOnInit() {
     // TODO: Kom med søgeforslag, hvis kurset ikke findes
+    this.courseService.loadData();
     this.courseSearchForm = new FormGroup({
       searchBar: new FormControl(null, Validators.required)
     });
-    this.courseService.loadData();
     this.searchResults = this.courseService.courses;
-    // this.searchResults = [this.courseService.courses["01003"], this.courseService.courses["01005"], this.courseService.courses["01015"]]
   }
 
   getCourse(courseNo: string) {
-    this.currentCourse = this.courseService.courses[0];
-    // studieplan.style
-
+    this.currentCourse = this.courseService.courses[courseNo];
   }
 
   getTopCourse() {
     // Tager kurset øverst i søgningen
-    
+    if (this.courseSearchForm.invalid) {
+      return
+    }
   }
 
-  updateSearchResults(input: string) {
+  updateSearchResults(queue: string, change: string) {
+    queue = queue.toLowerCase();
     this.currentCourse = null;
-    // console.log(input);
-    // const queue = this.courseSearchForm.get("searchBar").value;
-    // this.isSearching = true;
-    // // Afgør, om der søges på nummer eller navn
-    // if (/^[0-9]+$/.test(queue)) {
-    //   this.searchResults = this.courseService.searchNo(queue)
-    // }
+    this.searchResults = this.courseService.search(queue, /^[0-9]+$/.test(queue))
   }
 
 }

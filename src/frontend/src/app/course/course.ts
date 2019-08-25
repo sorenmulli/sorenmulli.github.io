@@ -1,11 +1,12 @@
 export interface ICourses {
-	updateTime: Date,
-	courses: ICourse[],
+	time: Date,
+	courses: {
+		[key: string]: ICourse,
+	},
 }
 
 export interface ICourse {
 	info: {
-		course_no: string,
 		name: string,
 		language: string,
 		ECTS: number,

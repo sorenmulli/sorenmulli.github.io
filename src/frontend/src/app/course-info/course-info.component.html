@@ -8,15 +8,15 @@
 				<input id="course-search"
 						matInput
 						formControlName="searchBar"
-						(input)="updateSearchResults($event.data)"
+						(input)="updateSearchResults($event.target.value, $event.data)"
 						placeholder="Kursusnr. eller -navn">
 			</form>
 		</mat-form-field>
 	</div>
 	<div class="col-xs-12 col-md-6">
 		<div  style="text-align: right">
-			<h5>Senest opdateret d.</h5>
-			{{courseService.updateTime | date}}
+			<h5>Senest opdateret</h5>
+			{{courseService.time | date}}
 		</div>
 	</div>
 </div>
@@ -31,7 +31,7 @@
 </div>
 
 <!-- Viser søgeresultater -->
-<div *ngIf="!currentCourse && courseSearchForm.valid" class="table--responsive-scroll">
+<div *ngIf="!currentCourse" class="table--responsive-scroll">
 	<table class="table table--zebra">
 		<tr>
 			<th>Nummer</th>
@@ -41,15 +41,15 @@
 			<th>Skemaplacering</th>
 			<th>Niveau</th>
 		</tr>
-		<tr *ngFor="let course of searchResults">
-			<td><a href="javascript:void(0)" (click)="getCourse(course.info.number)">
-				{{course.info.course_no}}
+		<tr *ngFor="let courseNo of searchResults | keys">
+			<td><a href="javascript:void(0)" (click)="getCourse(courseNo)">
+				{{courseNo}}
 			</a></td>
-			<td>{{course.info.name}}</td>
-			<td>{{course.info.ECTS}}</td>
-			<td>{{course.info.language}}</td>
-			<td>{{course.info.time}}</td>
-			<td>{{course.info.level}}</td>
+			<td>{{courseService[course].info.name}}</td>
+			<td><div style="text-align: right">{{(courseService[course].info.ECTS | number:"1.0-1").replace(".", ",")}}</div></td>
+			<td>{{courseService[course].info.language}}</td>
+			<td>{{courseService[course].info.time}}</td>
+			<td>{{courseService[course].info.level}}</td>
 		</tr>
 	</table>
 </div>
