@@ -1,7 +1,7 @@
 <!-- Søgefunktionalitet -->
-<h5>Søg efter kurser:</h5>
 <form (ngSubmit)="getTopCourse()"
 	  [formGroup]="courseSearchForm">
+	<label for="course-search"><h5>Søg efter kurser:</h5></label>
 	<mat-form-field>
 		<input id="course-search"
 				matInput

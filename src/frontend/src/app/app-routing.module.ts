@@ -7,7 +7,7 @@ import { DocsComponent } from './docs/docs.component';
 
 
 const routes: Routes = [
-  {path: "", component: CourseInfoComponent},
+  {path: "", redirectTo: "course", pathMatch: "full"},
   {path: "course", component: CourseInfoComponent},
   {path: "statistics", component: StatisticsComponent},
   {path: "overview", component: OverviewComponent},
