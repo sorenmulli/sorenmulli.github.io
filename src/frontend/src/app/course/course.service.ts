@@ -33,7 +33,7 @@ export class CourseService implements OnDestroy {
     const searchables = useCourseNo ? this.courseNos : this.courseNames;
     let matches: {[key: string]: ICourse} = {};
     for (let i in searchables) {
-      if (searchables[i].startsWith(queue)) {
+      if (searchables[i].indexOf(queue) >= 0) {
         matches[this.courseNos[i]] = this.courses[this.courseNos[i]];
       }
     }
