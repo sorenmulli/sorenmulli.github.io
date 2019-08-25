@@ -15,7 +15,7 @@ export class CourseInfoComponent implements OnInit {
 
   courseSearchForm: FormGroup;
   currentCourse: ICourse | null = null;
-  searchResults: ICourse[];
+  searchResults: {[key: string]: ICourse};
   showStudieplan: boolean = false;
 
   constructor(private courseService: CourseService) { }
@@ -26,7 +26,7 @@ export class CourseInfoComponent implements OnInit {
     this.courseSearchForm = new FormGroup({
       searchBar: new FormControl(null, Validators.required)
     });
-    this.searchResults = this.courseService.courses;
+    this.searchResults = this.courseService.getNFirst(this.courseService.courses);
   }
 
   getCourse(courseNo: string) {
@@ -44,6 +44,7 @@ export class CourseInfoComponent implements OnInit {
     queue = queue.toLowerCase();
     this.currentCourse = null;
     this.searchResults = this.courseService.search(queue, /^[0-9]+$/.test(queue))
+    console.log(this.searchResults);
   }
 
 }

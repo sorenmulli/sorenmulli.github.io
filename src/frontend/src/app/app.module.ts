@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatFormFieldModule, MatInputModule } from "@angular/material";
@@ -32,7 +32,10 @@ import { KeysPipe } from './course-info/course-info.pipe';
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [CourseService],
+  providers: [
+    CourseService,
+    // {provide: LOCALE_ID, useValue: "da-DK"}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

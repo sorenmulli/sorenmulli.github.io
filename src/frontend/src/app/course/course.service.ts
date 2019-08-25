@@ -23,24 +23,33 @@ export class CourseService implements OnDestroy {
   loadData() {
     this.time = new Date(data.time);
     this.courses = data.courses;
-    console.log(1);
-    for (let courseNo of Object.keys(this.courses)) {
-      this.courseNos.push(courseNo);
+    this.courseNos = Object.keys(this.courses);
+    for (let courseNo of this.courseNos) {
       this.courseNames.push(this.courses[courseNo].info.name.toLowerCase());
     }
   }
 
-  search(queue: string, useCourseNo: boolean): ICourse[] {
+  search(queue: string, useCourseNo: boolean): {[key: string]: ICourse} {
     const searchables = useCourseNo ? this.courseNos : this.courseNames;
-    let matches: string[] = [];
+    let matches: {[key: string]: ICourse} = {};
     for (let i in searchables) {
-      console.log(searchables[i]);
-      console.log(queue);
       if (searchables[i].startsWith(queue)) {
-        matches.push(i);
+        matches[this.courseNos[i]] = this.courses[this.courseNos[i]];
       }
     }
-    console.log(matches);
-    return matches.map((val) => {return this.courses[val]})
+    return matches
+  }
+
+  getNFirst(object: {[key: string]: ICourse}, n=10): {[key: string]: ICourse} {
+    let i = 0;
+    let newObject = {};
+    for(let key of Object.keys(object)) {
+      newObject[key] = object[key];
+      i ++;
+      if (i >= n) {
+        break;
+      }
+    }
+    return newObject
   }
 }
