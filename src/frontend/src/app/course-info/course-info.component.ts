@@ -20,7 +20,7 @@ export class CourseInfoComponent implements OnInit {
   showCourseDescription: boolean = false;
   showStudieplan: boolean = false;
 
-  constructor(private courseService: CourseService) { }
+  constructor(public courseService: CourseService) { }
 
   ngOnInit() {
     // TODO: Kom med søgeforslag, hvis kurset ikke findes
