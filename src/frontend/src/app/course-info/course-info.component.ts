@@ -16,6 +16,8 @@ export class CourseInfoComponent implements OnInit {
   courseSearchForm: FormGroup;
   currentCourse: ICourse | null = null;
   searchResults: {[key: string]: ICourse};
+  showAll: boolean = false;
+  showCourseDescription: boolean = false;
   showStudieplan: boolean = false;
 
   constructor(private courseService: CourseService) { }
@@ -24,9 +26,9 @@ export class CourseInfoComponent implements OnInit {
     // TODO: Kom med søgeforslag, hvis kurset ikke findes
     this.courseService.loadData();
     this.courseSearchForm = new FormGroup({
-      searchBar: new FormControl(null, Validators.required)
+      searchBar: new FormControl(null)
     });
-    this.searchResults = this.courseService.getNFirst(this.courseService.courses);
+    this.searchResults = this.courseService.courses;
   }
 
   getCourse(courseNo: string) {
@@ -35,9 +37,7 @@ export class CourseInfoComponent implements OnInit {
 
   getTopCourse() {
     // Tager kurset øverst i søgningen
-    if (this.courseSearchForm.invalid) {
-      return
-    }
+    this.getCourse(Object.keys(this.searchResults)[0]);
   }
 
   updateSearchResults(queue: string, change: string) {

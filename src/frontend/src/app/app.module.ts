@@ -12,7 +12,7 @@ import { DocsComponent } from './docs/docs.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlotlyComponent } from './plotly/plotly.component';
 import { CourseService } from './course/course.service';
-import { KeysPipe } from './course-info/course-info.pipe';
+import { KeysPipe, SafePipe } from './course-info/course-info.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import { KeysPipe } from './course-info/course-info.pipe';
     DocsComponent,
     PlotlyComponent,
     KeysPipe,
+    SafePipe,
   ],
   imports: [
     BrowserModule,

@@ -17,7 +17,7 @@ export class CourseService implements OnDestroy {
   constructor() { }
 
   ngOnDestroy() {
-    this.courses = null;
+    // this.courses = null;
   }
 
   loadData() {
@@ -37,10 +37,14 @@ export class CourseService implements OnDestroy {
         matches[this.courseNos[i]] = this.courses[this.courseNos[i]];
       }
     }
-    return matches
+    return this.getNFirst(matches)
   }
 
-  getNFirst(object: {[key: string]: ICourse}, n=10): {[key: string]: ICourse} {
+  getNFirst(object: {[key: string]: ICourse}, n=0): {[key: string]: ICourse} {
+    if (n === 0) {
+      n = Object.keys(object).length;
+    }
+    console.log(n);
     let i = 0;
     let newObject = {};
     for(let key of Object.keys(object)) {

@@ -24,36 +24,50 @@
 <!-- Viser kursusinfo -->
 <div *ngIf="currentCourse">
 	<!-- Studieplanlæggeren -->
-	<a (click)="showStudieplan=!showStudieplan">
+	<p><a (click)="showCourseDescription=!showCourseDescription">
+		{{showCourseDescription ? "Luk" : "Vis"}} kursusbeskrivelse
+	</a></p>
+	<iframe *ngIf="showCourseDescription"
+			[src]="('https://kurser.dtu.dk/course/' + currentCourse.info.course_no) | safe"
+			style="width:100%;height:500px"></iframe>
+	<p><a (click)="showStudieplan=!showStudieplan">
 		{{showStudieplan ? "Luk" : "Åbn"}} din studieplan
-	</a>
+	</a></p>
 	<iframe *ngIf="showStudieplan" class="studieplan" src="https://studieplan.dtu.dk"></iframe>
 </div>
 
 <!-- Viser søgeresultater -->
 <div *ngIf="!currentCourse" class="table--responsive-scroll">
 	<table class="table table--zebra">
-		<tr>
-			<th>Nummer</th>
-			<th>Navn</th>
-			<th>ECTS</th>
-			<th>Sprog</th>
-			<th>Skemaplacering</th>
-			<th>Niveau</th>
-		</tr>
-		<tr *ngFor="let courseNo of searchResults | keys">
-			<td><a href="javascript:void(0)" (click)="getCourse(courseNo)">
-				{{courseNo}}
-			</a></td>
-			<td>{{courseService.courses[courseNo].info.name}}</td>
-			<td><div style="text-align: right">{{(courseService.courses[courseNo].info.ECTS | number:"1.0-1").replace(".", ",")}}</div></td>
-			<td>{{courseService.courses[courseNo].info.language}}</td>
-			<td>{{courseService.courses[courseNo].info.time}}</td>
-			<td>{{courseService.courses[courseNo].info.level}}</td>
-		</tr>
+		<thead>
+			<tr>
+				<th>Nummer</th>
+				<th>Navn</th>
+				<th>ECTS</th>
+				<th>Sprog</th>
+				<th>Skemaplacering</th>
+				<th>Niveau</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let courseNo of courseService.getNFirst(searchResults, showAll ? 0 : 10) | keys">
+				<td>
+					<a href="javascript:void(0)" (click)="getCourse(courseNo)">{{courseNo}}</a>
+				</td>
+				<td>{{courseService.courses[courseNo].info.name}}</td>
+				<td><div style="text-align: right">{{(courseService.courses[courseNo].info.ECTS | number:"1.0-1").replace(".", ",")}}</div></td>
+				<td>{{courseService.courses[courseNo].info.language}}</td>
+				<td>{{courseService.courses[courseNo].info.time}}</td>
+				<td>{{courseService.courses[courseNo].info.level}}</td>
+			</tr>
+			<tr>
+				<td colspan="6"><a (click)="showAll=!showAll">{{showAll ? "Skjul" : "Vis alle"}} søgeresultater</a></td>
+			</tr>
+		</tbody>
+		<tfoot>
+		</tfoot>
 	</table>
 </div>
-<!-- <plotly [data]="data" [layout]="layout"></plotly> -->
   
 
 
