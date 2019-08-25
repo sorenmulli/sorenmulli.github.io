@@ -93,11 +93,15 @@ def scrape_all(N_processes = 12):
 	#multiprocessing of course downloads
 	with mp.Pool(processes = N_processes) as p:
 		mushed_course_list = p.map(scrape_loop, chunks(course_list, len(course_list) // N_processes))
-	course_list = [*mushed_course_list]
+	course_list = [item for sublist in mushed_course_list for item in sublist]
+
 #	course_list = scrape_loop(course_list)
+	course_dict = dict() 
+	for course in course_list:
+		course_dict[course["info"]["course_no"]] = course 
 
 	print("N found courses:", len(course_list))
-	data['courses'] = course_list
+	data['courses'] = course_dict
 
 	with open('src/backend/data/%scomplete_raw_data.json' %nowtime, 'w+') as fp:
 		json.dump(data, fp, indent=4)
@@ -133,4 +137,4 @@ def scrape_loop(course_list):
 	return course_list
 
 if __name__ == "__main__":
-	scrape_all(N_processes = 12)
+	scrape_all(N_processes = 16)

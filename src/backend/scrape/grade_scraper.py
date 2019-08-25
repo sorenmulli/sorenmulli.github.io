@@ -48,7 +48,7 @@ def scrape_grades_url(url):
 		header_td_list = grade_info.find_all('td', style = 'padding-right: 2em')
 	except:
 		return False
-		
+
 	header_scraped_strings = dict()
 	for td in header_td_list:
 		for wanted_string in wanted_strings:
@@ -59,7 +59,7 @@ def scrape_grades_url(url):
 		result["N_exam"] = int(header_scraped_strings['Fremmødte']) #ERROR HANDLING!?!?!?!?
 		result["N_passed"] = int(header_scraped_strings['Antal bestået'])
 		result["exam_avg"] = float(header_scraped_strings['Eksamensgennemsnit'].replace(',', '.'))
-	except KeyError:
+	except:
 		return False
 
 	#### Grab grade table information
