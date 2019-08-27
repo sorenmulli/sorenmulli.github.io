@@ -7,20 +7,35 @@ import { match } from 'minimatch';
 @Injectable({
   providedIn: 'root'
 })
-export class CourseService implements OnDestroy {
+export class CourseService {
 
-  time: Date;
-  courses: {[key: string]: ICourse};
-  courseNos: string[] = [];
-  courseNames: string[] = [];
+  public time: Date;
+  public courses: {[key: string]: ICourse};
+  public courseNos: string[] = [];
+  public courseNames: string[] = [];
+  public currentCourse: ICourse | null;
 
   constructor() { }
 
-  ngOnDestroy() {
-    // this.courses = null;
+  // ngOnDestroy() {
+  //   // this.courses = null;
+  // }
+
+  get(courseNo: string) {
+    return this.courses[courseNo];
   }
 
-  loadData() {
+  set(courseNo: string) {
+    if (courseNo === null) {
+      this.currentCourse = null;
+    } else {
+      this.currentCourse = this.get(courseNo);
+    }
+  }
+
+  loadData(force=false): void {
+    // Henter data, hvis ikke allerede hentet
+    if (this.courses) return;
     this.time = new Date(data.time);
     this.courses = data.courses;
     this.courseNos = Object.keys(this.courses);
@@ -44,7 +59,6 @@ export class CourseService implements OnDestroy {
     if (n === 0) {
       n = Object.keys(object).length;
     }
-    console.log(n);
     let i = 0;
     let newObject = {};
     for(let key of Object.keys(object)) {

@@ -2,49 +2,54 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, Validators, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { ICourse, ICourses } from "../course/course";
-import { CourseService } from '../course/course.service';
+import { ICourse, ICourses } from "./course";
+import { CourseService } from './course.service';
 import { IData, ILayout } from "../plotly/plotly";
 
 @Component({
-  selector: 'app-course-info',
-  templateUrl: './course-info.component.html',
-  styleUrls: ['./course-info.component.css']
+  selector: 'app-course',
+  templateUrl: './course.component.html',
+  styleUrls: ['./course.component.css']
 })
 export class CourseInfoComponent implements OnInit {
 
   courseSearchForm: FormGroup;
-  currentCourse: ICourse | null = null;
   searchResults: {[key: string]: ICourse};
   showAll: boolean = false;
   showCourseDescription: boolean = false;
   showStudieplan: boolean = false;
 
-  constructor(public courseService: CourseService) { }
+  constructor(public courseService: CourseService, private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     // TODO: Kom med søgeforslag, hvis kurset ikke findes
     this.courseService.loadData();
     this.courseSearchForm = new FormGroup({
-      searchBar: new FormControl(null)
+      searchBar: new FormControl(sessionStorage.getItem("queue"))
     });
     this.searchResults = this.courseService.courses;
+
+    this.router.onSameUrlNavigation = "reload";
+    this.route.params.subscribe(params => {
+      this.courseService.set(params.id);
+    })
   }
 
-  getCourse(courseNo: string) {
-    this.currentCourse = this.courseService.courses[courseNo];
-  }
-
-  getTopCourse() {
+  setTopCourse() {
     // Tager kurset øverst i søgningen
-    this.getCourse(Object.keys(this.searchResults)[0]);
+    const courseNo = Object.keys(this.searchResults)[0];
+    // Sikrer, at siden genindlæses, selv hvis kurset, og dermed url'en, er den samme
+    this.router.navigate([""]).then(
+      () => this.router.navigate(["course", courseNo])
+    );
   }
 
   updateSearchResults(queue: string, change: string) {
+    sessionStorage.setItem("queue", queue);
     queue = queue.toLowerCase();
-    this.currentCourse = null;
+    this.courseService.set(null);
     this.searchResults = this.courseService.search(queue, /^[0-9]+$/.test(queue))
-    console.log(this.searchResults);
   }
 
 }

@@ -3,7 +3,7 @@
 	<div class="col-xs-12 col-md-6">
 		<label for="course-search"><h5>Søg efter kurser:</h5></label>
 		<mat-form-field>
-			<form (ngSubmit)="getTopCourse()"
+			<form (ngSubmit)="setTopCourse()"
 				[formGroup]="courseSearchForm">
 				<input id="course-search"
 						matInput
@@ -22,13 +22,14 @@
 </div>
 
 <!-- Viser kursusinfo -->
-<div *ngIf="currentCourse">
+<div *ngIf="courseService.currentCourse">
+	{{courseService.currentCourse.info.course_no}}
 	<!-- Studieplanlæggeren -->
 	<p><a (click)="showCourseDescription=!showCourseDescription">
 		{{showCourseDescription ? "Luk" : "Vis"}} kursusbeskrivelse
 	</a></p>
 	<iframe *ngIf="showCourseDescription"
-			[src]="('https://kurser.dtu.dk/course/' + currentCourse.info.course_no) | safe"
+			[src]="('https://kurser.dtu.dk/course/' + courseService.currentCourse.info.course_no) | safe"
 			style="width:100%;height:500px"></iframe>
 	<p><a (click)="showStudieplan=!showStudieplan">
 		{{showStudieplan ? "Luk" : "Åbn"}} din studieplan
@@ -37,7 +38,7 @@
 </div>
 
 <!-- Viser søgeresultater -->
-<div *ngIf="!currentCourse" class="table--responsive-scroll">
+<div *ngIf="!courseService.currentCourse" class="table--responsive-scroll">
 	<table class="table table--zebra">
 		<thead>
 			<tr>
@@ -52,7 +53,7 @@
 		<tbody>
 			<tr *ngFor="let courseNo of courseService.getNFirst(searchResults, showAll ? 0 : 10) | keys">
 				<td>
-					<a href="javascript:void(0)" (click)="getCourse(courseNo)">{{courseNo}}</a>
+					<a [routerLink]="['/course', courseNo]">{{courseNo}}</a>
 				</td>
 				<td>{{courseService.courses[courseNo].info.name}}</td>
 				<td><div style="text-align: right">{{(courseService.courses[courseNo].info.ECTS | number:"1.0-1").replace(".", ",")}}</div></td>
@@ -61,11 +62,9 @@
 				<td>{{courseService.courses[courseNo].info.level}}</td>
 			</tr>
 			<tr>
-				<td colspan="6"><a (click)="showAll=!showAll">{{showAll ? "Skjul" : "Vis alle"}} søgeresultater</a></td>
+				<td colspan="6"><a (click)="showAll=!showAll">Vis {{showAll ? "færre" : "alle"}} søgeresultater</a></td>
 			</tr>
 		</tbody>
-		<tfoot>
-		</tfoot>
 	</table>
 </div>
   

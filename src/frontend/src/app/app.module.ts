@@ -5,14 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatFormFieldModule, MatInputModule } from "@angular/material";
 
-import { CourseInfoComponent } from './course-info/course-info.component';
+import { CourseInfoComponent } from './course/course.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { OverviewComponent } from './overview/overview.component';
 import { DocsComponent } from './docs/docs.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PlotlyComponent } from './plotly/plotly.component';
 import { CourseService } from './course/course.service';
-import { KeysPipe, SafePipe } from './course-info/course-info.pipe';
+import { KeysPipe, SafePipe } from './course/course.pipe';
 
 @NgModule({
   declarations: [
