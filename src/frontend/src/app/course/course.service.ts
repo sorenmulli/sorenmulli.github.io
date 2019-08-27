@@ -2,7 +2,34 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 
 import { ICourse, ICourses } from "./course";
 import data from "../../assets/complete_raw_data.json";
-import { match } from 'minimatch';
+
+export function getGrades(course: ICourse, time: string | number = -1) {
+  // Hvis timer en string, bruges det som key
+  // Er det number, er indeksering som i python
+  if (typeof time === "string") {
+    return course.grades[time]
+  } else if (time < 0) {
+    const keys = Object.keys(course.grades);
+    return course.grades[keys[keys.length+time]]
+  } else {
+    const keys = Object.keys(course.grades);
+    return course.grades[keys[time]]
+  }
+}
+
+export function getEvals(course: ICourse, time: string | number = -1) {
+  // Hvis timer en string, bruges det som key
+  // Er det number, er indeksering som i python
+  if (typeof time === "string") {
+    return course.evals[time]
+  } else if (time < 0) {
+    const keys = Object.keys(course.evals);
+    return course.evals[keys[keys.length+time]]
+  } else {
+    const keys = Object.keys(course.evals);
+    return course.evals[keys[time]]
+  }
+}
 
 @Injectable({
   providedIn: 'root'

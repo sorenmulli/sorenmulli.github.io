@@ -1,4 +1,23 @@
-{{course|json}}
+<h5>Kernetal for {{course.info.course_no}} {{course.info.name}}</h5>
+<div class="table--responsive-scroll" style="max-width: 50%">
+	<table class="table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Værdi</th>
+				<th>Percentil</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Karaktergennemsnit</th>
+				<td style="text-align: right">{{getGrades(course).exam_avg}}</td>
+				<td style="text-align: right">{{getGrades(course).exam_avg}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <!-- Studieplanlæggeren -->
 <p><a (click)="showCourseDescription=!showCourseDescription">
 	{{showCourseDescription ? "Luk" : "Vis"}} kursusbeskrivelse

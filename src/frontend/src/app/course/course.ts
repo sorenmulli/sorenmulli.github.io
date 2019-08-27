@@ -18,7 +18,7 @@ export interface ICourse {
 		[key: string]: {
 			N_exam: number,
 			N_passed: number,
-			exam_avg: number,
+			exam_avg: number,  // 0: Værdi, 1: Percentil
 			grade_dist?: number[],
 		}
 	},
@@ -35,4 +35,5 @@ export interface ICourse {
 		}
 	}
 }
+
 
