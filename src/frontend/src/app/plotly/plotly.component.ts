@@ -19,6 +19,7 @@ export class PlotlyComponent implements OnInit {
 
   @Input() private data: IData[];
   @Input() private layout: ILayout;
+  
   private dataDefaults: IData;
   private layoutDefaults: ILayout = {
     autoexpand: "true", autosize: "true",

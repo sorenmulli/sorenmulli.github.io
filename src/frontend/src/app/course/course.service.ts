@@ -17,10 +17,6 @@ export class CourseService {
 
   constructor() { }
 
-  // ngOnDestroy() {
-  //   // this.courses = null;
-  // }
-
   get(courseNo: string) {
     return this.courses[courseNo];
   }

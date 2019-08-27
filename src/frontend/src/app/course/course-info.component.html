@@ -1,1 +1,12 @@
-<p>course-info works!</p>
+{{course|json}}
+<!-- Studieplanlæggeren -->
+<p><a (click)="showCourseDescription=!showCourseDescription">
+	{{showCourseDescription ? "Luk" : "Vis"}} kursusbeskrivelse
+</a></p>
+<iframe *ngIf="showCourseDescription"
+		[src]="('https://kurser.dtu.dk/course/' + course.info.course_no) | safe"
+		style="width:100%;height:500px"></iframe>
+<p><a (click)="showStudieplan=!showStudieplan">
+	{{showStudieplan ? "Luk" : "Åbn"}} din studieplan
+</a></p>
+<iframe *ngIf="showStudieplan" class="studieplan" src="https://studieplan.dtu.dk"></iframe>

@@ -1,23 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormControl, Validators, FormGroup } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { ICourse, ICourses } from "./course";
+import { ICourse } from "./course";
 import { CourseService } from './course.service';
-import { IData, ILayout } from "../plotly/plotly";
 
 @Component({
   selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
-export class CourseInfoComponent implements OnInit {
+export class CourseComponent implements OnInit {
 
   courseSearchForm: FormGroup;
   searchResults: {[key: string]: ICourse};
   showAll: boolean = false;
-  showCourseDescription: boolean = false;
-  showStudieplan: boolean = false;
 
   constructor(public courseService: CourseService, private route: ActivatedRoute,
               private router: Router) { }
@@ -30,7 +27,6 @@ export class CourseInfoComponent implements OnInit {
     });
     this.searchResults = this.courseService.courses;
 
-    this.router.onSameUrlNavigation = "reload";
     this.route.params.subscribe(params => {
       this.courseService.set(params.id);
     })

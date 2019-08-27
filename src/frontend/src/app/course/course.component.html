@@ -22,20 +22,8 @@
 </div>
 
 <!-- Viser kursusinfo -->
-<div *ngIf="courseService.currentCourse">
-	{{courseService.currentCourse.info.course_no}}
-	<!-- Studieplanlæggeren -->
-	<p><a (click)="showCourseDescription=!showCourseDescription">
-		{{showCourseDescription ? "Luk" : "Vis"}} kursusbeskrivelse
-	</a></p>
-	<iframe *ngIf="showCourseDescription"
-			[src]="('https://kurser.dtu.dk/course/' + courseService.currentCourse.info.course_no) | safe"
-			style="width:100%;height:500px"></iframe>
-	<p><a (click)="showStudieplan=!showStudieplan">
-		{{showStudieplan ? "Luk" : "Åbn"}} din studieplan
-	</a></p>
-	<iframe *ngIf="showStudieplan" class="studieplan" src="https://studieplan.dtu.dk"></iframe>
-</div>
+{{courseService.currentCourse}}
+<course-info course="courseService.currentCourse" *ngIf="courseService.currentCourse"></course-info>
 
 <!-- Viser søgeresultater -->
 <div *ngIf="!courseService.currentCourse" class="table--responsive-scroll">

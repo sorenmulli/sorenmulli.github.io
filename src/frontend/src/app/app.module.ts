@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatFormFieldModule, MatInputModule } from "@angular/material";
 
-import { CourseInfoComponent } from './course/course.component';
+import { CourseComponent } from './course/course.component';
+import { CourseInfoComponent } from "./course/course-info.component";
 import { StatisticsComponent } from './statistics/statistics.component';
 import { OverviewComponent } from './overview/overview.component';
 import { DocsComponent } from './docs/docs.component';
@@ -17,6 +18,7 @@ import { KeysPipe, SafePipe } from './course/course.pipe';
 @NgModule({
   declarations: [
     AppComponent,
+    CourseComponent,
     CourseInfoComponent,
     StatisticsComponent,
     OverviewComponent,
