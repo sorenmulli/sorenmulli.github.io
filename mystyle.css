@@ -1,0 +1,21 @@
+html *
+{
+   font-family: Arial;
+}
+body {
+  background-color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    border-bottom: 1px solid grey;
+}
+
+th {
+    text-align: left;
+    font-weight: normal;
+}
